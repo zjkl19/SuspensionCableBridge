@@ -42,6 +42,9 @@ def balanceFun(z):
 
 result=fsolve(balanceFun,[1])
 logger.info('result:\n'+str(result))
+
+uy=-result[0]*sympy.cosh(x/result[0]-sympy.asinh(0.5*h/(result[0]*sympy.sinh(0.5*l/result[0])))-0.5*l/result[0])+result[0]*sympy.cosh(-sympy.asinh(0.5*h/(result[0]*sympy.sinh(0.5*l/result[0])))-0.5*l/result[0])   #无应力索线形unstressed y
+logger.info('uy:\n'+str(uy))
 #def balanceFun(z):
 #    c=float(z[0])
 #    c1=float(z[1])
@@ -70,6 +73,10 @@ S1=S-deltaS1;
 
 logger.info('S1:'+str(S1))
 
+deltaS11=H*S/(Ec*Ac);
+S11=S-deltaS11;
+logger.info('S11:'+str(S11))
+
 #无应力索长
 gc=8.348*10**4;   #缆索自重
 c=l**2/(8*f);
@@ -77,6 +84,17 @@ c=69.5058;
 Hc=c*gc;    #缆索在自重状态下的水平拉力
 
 deltaS2=Hc*(l+c*math.sinh(l/c))/(2*Ec*Ac);
+
+#def fff(x):
+#    return (1-x**2)**(1/2)
+
+#w, err = integrate.quad(f,-1,1)
+#print(w,err)
+
+#float(sympy.integrate((1+sympy.diff(y,x)**2)**0.5, (x, 0, l)))
+#float(sympy.integrate((1+sympy.diff(uy,x)**2)**0.5, (x, 0, l)))
+deltaS22=Hc*float(sympy.integrate(1+sympy.diff(uy,x)**2, (x, 0, l)))/(Ec*Ac)
+logger.info('S22:'+str(deltaS22))
 
 from sympy import  integrate ,cos,sin
 from sympy.abc import  a,x,y

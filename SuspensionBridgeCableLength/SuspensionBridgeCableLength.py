@@ -29,7 +29,7 @@ logger.info('S:'+str(S))
 
 #p61 3-2-30，积分展开结果
 #S=(l/2)*(1+16*n**2)**0.5+0.125*(l/n)*math.log(4*n+(1+16*n**2)**0.5);
-#S=l*(1+8/(3*n^2)-32/(5*n^4));     #有应力索长估算公式（按级数展开结果）
+#S=l*(1+8*n**2/3-32*n**4/5);     #有应力索长估算公式（按级数展开结果）以过溪桥为例，误差越1
 
 from scipy.optimize import fsolve
 
@@ -80,6 +80,7 @@ logger.info('S11:'+str(S11))
 #无应力索长
 gc=8.348*10**4;   #缆索自重
 c=l**2/(8*f);
+logger.info(str(c))
 c=69.5058;
 Hc=c*gc;    #缆索在自重状态下的水平拉力
 
@@ -93,10 +94,14 @@ deltaS2=Hc*(l+c*math.sinh(l/c))/(2*Ec*Ac);
 
 #float(sympy.integrate((1+sympy.diff(y,x)**2)**0.5, (x, 0, l)))
 #float(sympy.integrate((1+sympy.diff(uy,x)**2)**0.5, (x, 0, l)))
-deltaS22=Hc*float(sympy.integrate(1+sympy.diff(uy,x)**2, (x, 0, l)))/(Ec*Ac)
-logger.info('S22:'+str(deltaS22))
+logger.info('deltaS2:'+str(deltaS2))
+deltaS22=Hc*float(sympy.integrate(1+(sympy.diff(uy,x))**2, (x, 0, l)))/(Ec*Ac)
+logger.info('deltaS22:'+str(deltaS22))
 
 from sympy import  integrate ,cos,sin
 from sympy.abc import  a,x,y
 r=integrate(sin(x)/x,(x,-float("inf"),float("inf")))
+
+r1=integrate(sympy.cosh(x))
+logger.info('r1:'+str(r1))
 S0=S-deltaS1-deltaS2;

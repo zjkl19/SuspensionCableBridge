@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>95c125c8-b3fa-4621-9b3e-32a7679001b6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>SuspensionBridgeCableLength.py</StartupFile>
+    <StartupFile>HTCableLength.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="HTCableLength.py" />
     <Compile Include="SuspensionBridgeCableLength.py" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-洪塘大桥
-矢高f=15.114
-l=150
-h=80.107-23.732=56.375
+绶溪大桥
 Created on Tue Mar 12 10:12:50 2019
 
 @author: Lindinan
@@ -16,16 +13,16 @@ logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(name)s - %(le
 logger = logging.getLogger(__name__)
 
 
-h=80.107-23.732    #y|x=l 处高度
-f=15.114    #矢高
-l=150    #跨径
+h=0    #y|x=l 处高度
+f=9    #矢高
+l=70    #跨径
 n=f/l  #矢跨比
 
 Ec=2.0*10**11   #主缆弹性模量(国际单位）
-Ac=0.25*3.14*0.35644**2   #主缆面积（国际单位）
-gb=182734.2+14.2*1000+4.00*1000   #加劲梁自重（P58 有解释）。计算过程详见excel表格（联合midas计算）
+Ac=0.25*3.14*0.10695**2   #主缆面积（国际单位）
+gb=168000   #加劲梁自重（P58 有解释）。计算过程详见excel表格（联合midas计算）
 H=gb*l**2/(8*f)    #主缆拉力的水平分力（P57 3-2-10）
-gc=78.2*10**3*Ac   #缆索沿纵桥向每延米自重
+gc=8.348*10**4*Ac   #缆索沿纵桥向每延米自重
 
 c=sympy.symbols("c")
 #求解空缆线形方程所用的平衡方程
@@ -47,7 +44,7 @@ print('主缆有应力索长S:'+str(S))
 #S=(l/2)*(1+16*n**2)**0.5+0.125*(l/n)*math.log(4*n+(1+16*n**2)**0.5);
 #S=l*(1+8*n**2/3-32*n**4/5);     #有应力索长估算公式（按级数展开结果）以过溪桥为例，误差越1
 
-result=fsolve(balanceFun,[0.5])    #迭代初值为1
+result=fsolve(balanceFun,[1])    #迭代初值为1
 logger.info('平衡方程求解结果:'+str(result))
 
 uy=-result[0]*sympy.cosh(x/result[0]-sympy.asinh(0.5*h/(result[0]*sympy.sinh(0.5*l/result[0])))-0.5*l/result[0])+result[0]*sympy.cosh(-sympy.asinh(0.5*h/(result[0]*sympy.sinh(0.5*l/result[0])))-0.5*l/result[0])   #无应力索线形unstressed y

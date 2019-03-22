@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 洪塘大桥
-矢高f=15.114
-l=150
-h=80.107-23.732=56.375
-Created on Tue Mar 12 10:12:50 2019
 
 @author: Lindinan
 """
@@ -16,19 +12,17 @@ logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(name)s - %(le
 logger = logging.getLogger(__name__)
 
 
-h=80.107-23.732    #y|x=l 处高度
-f=15.114    #矢高
-l=150    #跨径
+h=80.107-28.076    #y|x=l 处高度
+f=9.04    #矢高
+l=110    #跨径
 n=f/l  #矢跨比
 
 Ec=2.0*10**11   #主缆弹性模量(国际单位）
 Ac=0.25*3.14*0.35644**2   #主缆面积（国际单位）
-gb=182734.2+142.2*1000+40.0*1000   #加劲梁自重（P58 有解释）。计算过程详见excel表格（联合midas计算）
+gb=182734.2+14.2*1000+4.00*1000   #加劲梁自重（P58 有解释）。计算过程详见excel表格（联合midas计算）
 H=gb*l**2/(8*f)    #主缆拉力的水平分力（P57 3-2-10）
 print('成桥阶段水平力H:'+str(H))
 gc=78.2*10**3*Ac   #缆索沿纵桥向每延米自重
-
-print (gc/gb)
 
 c=sympy.symbols("c")
 #求解空缆线形方程所用的平衡方程
@@ -40,10 +34,8 @@ def balanceFun(z):
 x = sympy.symbols("x")
 #成桥状态线形方程
 y=(h/l)*x+(4*f/l**2)*x*(l-x)    #p57 3-2-11
-print('y:'+str(y))
 
-coor=[0,10,20,30,40,50,60,70,80,90,100,110,150]
-
+coor=[0,10,20,30,40,50,60,70,80,90,100,110]
 #通过序列项迭代
 for i in coor:
     print(y.subs(x, i))
@@ -63,8 +55,7 @@ logger.info('平衡方程求解结果:'+str(result))
 uy=-result[0]*sympy.cosh(x/result[0]-sympy.asinh(0.5*h/(result[0]*sympy.sinh(0.5*l/result[0])))-0.5*l/result[0])+result[0]*sympy.cosh(-sympy.asinh(0.5*h/(result[0]*sympy.sinh(0.5*l/result[0])))-0.5*l/result[0])   #无应力索线形unstressed y
 logger.info('空缆状态下的线形方程uy:\n'+str(uy))
 
-coor=[0,10,20,30,40,50,60,70,80,90,100,110,150]
-
+coor=[0,10,20,30,40,50,60,70,80,90,100,110]
 #通过序列项迭代
 for i in coor:
     print(uy.subs(x, i))
@@ -99,7 +90,6 @@ print('空缆状态下的缆长S1:'+str(S1))
 
 #P62 3-2-36
 Hc=result[0]*gc
-Hc=1700000
 print('空缆阶段水平力Hc:'+str(Hc))
 deltaS2=Hc*float(sympy.integrate(1+(sympy.diff(uy,x))**2, (x, 0, l)))/(Ec*Ac)
 print('缆索自重作用下的钢缆弹性伸长值deltaS2:'+str(deltaS2))

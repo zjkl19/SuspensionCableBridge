@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 h=80.107-23.732    #y|x=l 处高度
-f=15.114    #矢高
+f=15    #矢高
 l=150    #跨径
 n=f/l  #矢跨比
 
